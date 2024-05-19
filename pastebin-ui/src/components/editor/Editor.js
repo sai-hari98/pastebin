@@ -9,7 +9,7 @@ class Editor extends Component {
                 <textarea rows="20" cols="100" placeholder="Enter your text to be shared..."></textarea>
             </div>
             <div className="col-12">
-                <button className="btn btn-success">Publish text</button>
+                <button className="btn btn-primary">Publish text</button>
             </div>
         </div>
         );
