@@ -15,9 +15,12 @@ class Editor extends Component {
     }
 
     saveText() {
-        pastebinAxios.post("/text", this.state.text, { headers: { 'Content-Type': 'text/plain' } }).then(response => {
+        const requestBody = {content : this.state.text, expiry : this.state.expiry};
+        pastebinAxios.post("/text", requestBody).then(response => {
+            alert(`Saved content. Shareable ID is ${response}. Redirecting to home page`);
             console.log(response);
         }).catch(error => {
+            alert('An error occurred. Please try after sometime')
             console.log(error);
         })
     }
