@@ -4,11 +4,12 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import './Editor.css'
+import moment from 'moment/moment';
 
 class Editor extends Component {
 
     state = {
-        text: null,
+        text: '',
         textValid: false
     }
 
@@ -25,6 +26,12 @@ class Editor extends Component {
         this.setState({ text: newText, textValid: isTextValid });
     }
 
+    onChangeDateTime(newDateTime) {
+        let localDateTime = new Date(newDateTime.valueOf());
+        console.log(localDateTime);
+        console.log(moment.utc(localDateTime).format());
+    }
+
     render() {
         return (
             <>
@@ -35,7 +42,7 @@ class Editor extends Component {
                     </div>
                     <div className="col-4">
                         <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='en'>
-                            <DateTimePicker placeholder="Set Expiry date and time" />
+                            <DateTimePicker placeholder="Set Expiry date and time" onChange={(newValue) => this.onChangeDateTime(newValue)}/>
                         </LocalizationProvider>
                     </div>
                     <div className="col-4 d-flex align-items-center">
