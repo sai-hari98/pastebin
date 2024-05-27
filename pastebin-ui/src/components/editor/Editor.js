@@ -10,7 +10,8 @@ class Editor extends Component {
 
     state = {
         text: '',
-        textValid: false
+        formValid: false,
+        expiry : null
     }
 
     saveText() {
@@ -22,14 +23,21 @@ class Editor extends Component {
     }
 
     onChangeText(newText) {
-        const isTextValid = newText !== null || newText !== undefined;
-        this.setState({ text: newText, textValid: isTextValid });
+        this.setState({ text: newText}, () => this.isSubmitValid());
+    }
+
+    isSubmitValid(){
+        const isValid = this.state.text !== '' && this.state.expiry !== null && this.state.expiry !== undefined;
+        this.setState({formValid : isValid});
     }
 
     onChangeDateTime(newDateTime) {
-        let localDateTime = new Date(newDateTime.valueOf());
-        console.log(localDateTime);
-        console.log(moment.utc(localDateTime).format());
+        if(newDateTime !== null && newDateTime !== undefined) {
+            let localDateTime = new Date(newDateTime.valueOf());
+            this.setState({expiry : moment.utc(localDateTime).format()}, () => this.isSubmitValid());
+        } else {
+            this.setState({expiry : null}, () => this.isSubmitValid());
+        }
     }
 
     render() {
@@ -46,7 +54,7 @@ class Editor extends Component {
                         </LocalizationProvider>
                     </div>
                     <div className="col-4 d-flex align-items-center">
-                        <button className="btn btn-primary" onClick={() => this.saveText()} disabled={!this.state.textValid}>Publish text</button>
+                        <button className="btn btn-primary" onClick={() => this.saveText()} disabled={!this.state.formValid}>Publish text</button>
                     </div>
                 </div>
             </>
